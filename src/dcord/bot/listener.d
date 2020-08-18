@@ -64,6 +64,7 @@ mixin template Listenable() {
   ListenerObject[]  listeners;
 
   void loadListeners(T)() {
+    // TODO: make this cleaner 
     foreach (mem; __traits(allMembers, T)) {
       foreach(attr; __traits(getAttributes, __traits(getMember, T, mem))) {
         static if (__traits(hasMember, attr, "clsName")) {

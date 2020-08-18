@@ -3,7 +3,8 @@ module dcord.state;
 import std.functional,
        std.stdio,
        std.algorithm.iteration,
-       std.experimental.logger;
+       std.experimental.logger,
+       std.array;
 
 import vibe.core.sync : createManualEvent, LocalManualEvent;
 import std.algorithm.searching : canFind, countUntil;
@@ -80,7 +81,7 @@ class State: Emitter {
 
   private void bindListeners() {
     // Unbind all listeners
-    this.listeners.each!((l) => l.unbind());
+    this.listeners.each!(l => l.unbind());
 
     // Always listen for ready payload
     this.listen!(
@@ -93,14 +94,8 @@ class State: Emitter {
 
   private void onReady(Ready r) {
     this.me = r.me;
-
-    foreach (guild; r.guilds) {
-      this.awaitingCreate ~= guild.id;
-    }
-
-    foreach (dm; r.dms) {
-      this.directMessages[dm.id] = dm;
-    }
+    this.awaitingCreate ~= r.guilds.map!(g => g.id).array;
+    this.directMessages.each(dm => this.directMessages[dm.id] = dm);
   }
 
   private void onGuildCreate(GuildCreate c) {
@@ -109,76 +104,62 @@ class State: Emitter {
       this.awaitingCreate.remove(this.awaitingCreate.countUntil(c.guild.id));
 
       // If no other guilds are awaiting, emit the event
-      if (this.awaitingCreate.length == 0) {
-        this.ready.emit();
-      }
+      if(this.awaitingCreate.length == 0) this.ready.emit();
     }
 
     this.guilds[c.guild.id] = c.guild;
 
-    c.guild.channels.each((c) {
-      this.channels[c.id] = c;
-    });
-
-    c.guild.members.each((m) {
-      this.users[m.user.id] = m.user;
-    });
-
-    c.guild.voiceStates.each((v) {
-      this.voiceStates[v.sessionID] = v;
-    });
-
-    if (this.requestOfflineMembers) {
-      c.guild.requestOfflineMembers();
-    }
+    c.guild.channels.each(c => this.channels[c.id] = c); 
+    c.guild.members.each(m => this.users[m.user.id] = m.user); 
+    c.guild.voiceStates.each(v => this.voiceStates[v.sessionID] = v);
+    if(this.requestOfflineMembers) c.guild.requestOfflineMembers();
+  
   }
 
   private void onGuildUpdate(GuildUpdate c) {
-    if (!this.guilds.has(c.guild.id)) return;
-    // TODO: handle updates, iterate over raw data
-    // this.guilds[c.guild.id].fromUpdate(c);
+    if(!this.guilds.has(c.guild.id)) return;
   }
 
   private void onGuildDelete(GuildDelete c) {
-    if (!this.guilds.has(c.guildID)) return;
+    if(!this.guilds.has(c.guildID)) return;
     this.guilds.remove(c.guildID);
   }
 
   private void onGuildMemberAdd(GuildMemberAdd c) {
-    if (this.users.has(c.member.user.id)) {
+    if(this.users.has(c.member.user.id)) {
       this.users[c.member.user.id] = c.member.user;
     }
 
-    if (this.guilds.has(c.member.guild.id)) {
+    if(this.guilds.has(c.member.guild.id)) {
       this.guilds[c.member.guild.id].members[c.member.user.id] = c.member;
     }
   }
 
   private void onGuildMemberRemove(GuildMemberRemove c) {
-    if (!this.guilds.has(c.guildID)) return;
-    if (!this.guilds[c.guildID].members.has(c.user.id)) return;
+    if(!this.guilds.has(c.guildID)) return;
+    if(!this.guilds[c.guildID].members.has(c.user.id)) return;
     this.guilds[c.guildID].members.remove(c.user.id);
   }
 
   private void onGuildMemberUpdate(GuildMemberUpdate c) {
-    if (!this.guilds.has(c.member.guildID)) return;
-    if (!this.guilds[c.member.guildID].members.has(c.member.user.id)) return;
+    if(!this.guilds.has(c.member.guildID)) return;
+    if(!this.guilds[c.member.guildID].members.has(c.member.user.id)) return;
   }
 
   private void onGuildRoleCreate(GuildRoleCreate c) {
-    if (!this.guilds.has(c.guildID)) return;
+    if(!this.guilds.has(c.guildID)) return;
     this.guilds[c.guildID].roles[c.role.id] = c.role;
   }
 
   private void onGuildRoleDelete(GuildRoleDelete c) {
-    if (!this.guilds.has(c.guildID)) return;
-    if (!this.guilds[c.guildID].roles.has(c.role.id)) return;
+    if(!this.guilds.has(c.guildID)) return;
+    if(!this.guilds[c.guildID].roles.has(c.role.id)) return;
     this.guilds[c.guildID].roles.remove(c.role.id);
   }
 
   private void onGuildRoleUpdate(GuildRoleUpdate c) {
-    if (!this.guilds.has(c.guildID)) return;
-    if (!this.guilds[c.guildID].roles.has(c.role.id)) return;
+    if(!this.guilds.has(c.guildID)) return;
+    if(!this.guilds[c.guildID].roles.has(c.role.id)) return;
     this.guilds[c.guildID].roles[c.role.id] = c.role;
   }
 
@@ -191,9 +172,7 @@ class State: Emitter {
   }
 
   private void onChannelDelete(ChannelDelete c) {
-    if (this.channels.has(c.channel.id)) {
-      this.channels.remove(c.channel.id);
-    }
+    if(this.channels.has(c.channel.id)) this.channels.remove(c.channel.id);
   }
 
   private void onVoiceStateUpdate(VoiceStateUpdate u) {

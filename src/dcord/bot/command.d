@@ -12,7 +12,7 @@ import std.regex,
 import dcord.types,
        dcord.gateway;
 
-/// Commands are members of Plugin class or classes which inherit from it. See: examples/src/basic.d
+/// Commands (currently not working) are members of Plugin class or classes which inherit from it. See: examples/src/basic.d
 /// Example usage:
 ///
 /// @Command("hello", "hello2")    //The command may respond to multiple triggers.
