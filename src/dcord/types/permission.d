@@ -6,7 +6,7 @@ import std.format,
 import dcord.types;
 
 /// Raised when an action cannot be performed due to a lack of permissions
-class PermissionsError : Exception {
+class PermissionsError: Exception {
   Permissions perm;
 
   this(T...)(Permissions perm, T args) {
@@ -18,8 +18,8 @@ class PermissionsError : Exception {
 /// Permission value
 alias Permission = ulong;
 
-/// Permissions enum
-enum Permissions : Permission {
+/// Enumeration of permissions.
+enum Permissions: Permission {
   NONE,
   CREATE_INSTANT_INVITE = 1 << 0,
   KICK_MEMBERS = 1 << 1,

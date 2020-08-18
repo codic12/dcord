@@ -8,33 +8,6 @@
   "dependencies": {
     "vibe-d:core": "~>0.8.5",
     "vibe-d:http": "~>0.8.5"
-  },
-  "configurations": [
-    {
-      "name": "dcord-linux-static-x64",
-      "platforms": ["linux", "x86_64"],
-      "subConfigurations": {
-        "shaker": "shaker-static-x64",
-        "opus": "opus-static-x64"
-      }
-    },
-    {
-      "name": "dcord-linux-dynamic",
-      "platforms": ["linux"],
-      "subConfigurations": {
-        "shaker": "shaker-dynamic",
-        "opus": "opus-dynamic"
-      }
-    },
-    {
-      "name": "dcord-osx",
-      "lflags": ["-L/usr/local/opt/openssl/lib"],
-      "platforms": ["OSX"]
-    },
-    {
-      "name": "dcord-windows",
-      "platforms": ["Windows"]
-    }
-  ],
+  }, 
   "-ddoxFilterArgs": ["--no-unittest-examples"]
 }
