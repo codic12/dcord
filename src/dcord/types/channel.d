@@ -12,12 +12,14 @@ import dcord.types,
 alias ChannelMap = ModelMap!(Snowflake, Channel);
 alias PermissionOverwriteMap = ModelMap!(Snowflake, PermissionOverwrite);
 
+/// Enumeration permission overwrites
 enum PermissionOverwriteType {
   ROLE = "role",
-  MEMBER = "member" ,
+  MEMBER = "member",
 }
 
-enum ChannelType : ushort {
+/// Enumeration of channel types
+enum ChannelType: ushort {
   GUILD_TEXT = 0,
   DM = 1,
   GUILD_VOICE = 2,
@@ -25,43 +27,44 @@ enum ChannelType : ushort {
   GUILD_CATEGORY = 4,
 }
 
-class PermissionOverwrite : IModel {
+/// A class representing a permission overwrite
+class PermissionOverwrite: IModel {
   mixin Model;
-
-  Snowflake  id;
+  Snowflake id;
 
   // Overwrite type
-  PermissionOverwriteType  type;
+  PermissionOverwriteType type;
 
   // Permissions
-  Permission  allow;
-  Permission  deny;
+  Permission allow;
+  Permission deny;
 
   // Parent channel
-  Channel    channel;
+  Channel channel;
 }
 
-class Channel : IModel, IPermissible {
+/// A channel object
+class Channel: IModel, IPermissible {
   mixin Model;
   mixin Permissible;
 
-  Snowflake    id;
-  Snowflake    guildID;
-  string       name;
-  string       topic;
-  Snowflake    lastMessageID;
-  short        position;
-  uint         bitrate;
-  ChannelType  type;
-  Snowflake    parentID;
+  Snowflake id;
+  Snowflake guildID;
+  string name;
+  string topic;
+  Snowflake lastMessageID;
+  short position;
+  uint bitrate;
+  ChannelType type;
+  Snowflake parentID;
 
   @JSONListToMap("id")
-  UserMap         recipients;
+  UserMap recipients;
 
   // Overwrites
   @JSONListToMap("id")
   @JSONSource("permission_overwrites")
-  PermissionOverwriteMap  overwrites;
+  PermissionOverwriteMap overwrites;
 
   @property Guild guild() {
     return this.client.state.guilds.get(this.guildID);
@@ -71,7 +74,7 @@ class Channel : IModel, IPermissible {
     this.overwrites = new PermissionOverwriteMap;
   }
 
-  override string toString() {
+  override string toString() { // stfu
     return format("<Channel %s (%s)>", this.name, this.id);
   }
 

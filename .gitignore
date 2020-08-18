@@ -5,11 +5,10 @@ docs/
 __test*
 *.html
 dub.selections.json
-
-# Windows/VisualD
 *.visualdproj
 *.lib
 *.sln
 *.suo
 *.dll
 *.exe
+*.bin

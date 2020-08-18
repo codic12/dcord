@@ -219,9 +219,7 @@ class Bot {
       auto member = guild.getMember(event.msg.author);
 
       if (member && member.roles) {
-        roleLevel = member.roles.map!((rid) =>
-          this.getLevel(guild.roles.get(rid))
-        ).reduce!max;
+        roleLevel = member.roles.map!(rid => this.getLevel(guild.roles.get(rid))).reduce!max;
       }
     }
 

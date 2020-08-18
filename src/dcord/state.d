@@ -112,8 +112,7 @@ class State: Emitter {
     c.guild.channels.each(c => this.channels[c.id] = c); 
     c.guild.members.each(m => this.users[m.user.id] = m.user); 
     c.guild.voiceStates.each(v => this.voiceStates[v.sessionID] = v);
-    if(this.requestOfflineMembers) c.guild.requestOfflineMembers();
-  
+    if(this.requestOfflineMembers) c.guild.requestOfflineMembers(); 
   }
 
   private void onGuildUpdate(GuildUpdate c) {

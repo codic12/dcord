@@ -30,7 +30,7 @@ immutable EmitterOrder[] EmitterOrderAll = [
 /**
   Special exception used to stop the emission of an event.
 */
-class EmitterStop : Exception { mixin ExceptionMixin; }
+class EmitterStop: Exception { mixin ExceptionMixin; }
 
 /**
   Interface implementing a single call method for emitting an event.
@@ -42,7 +42,7 @@ interface BoundEmitter {
 /**
   Base event listener implementation.
 */
-class BaseEventListener : BoundEmitter {
+class BaseEventListener: BoundEmitter {
   EmitterOrder  order;
   Emitter  e;
   string  name;
@@ -63,7 +63,7 @@ class BaseEventListener : BoundEmitter {
 /**
   Listener for a specific event.
 */
-class EventListener : BaseEventListener {
+class EventListener: BaseEventListener {
   void delegate(Variant arg)  func;
 
   this(Emitter e, string name, EmitterOrder order, void delegate(Variant) f) {
@@ -86,7 +86,7 @@ alias EventListenerArray = EventListener[];
 /**
   Listener for all events.
 */
-class AllEventListener : BaseEventListener {
+class AllEventListener:  BaseEventListener {
   void delegate(string, Variant)  func;
 
   this(Emitter e, EmitterOrder order, void delegate(string, Variant) f) {
