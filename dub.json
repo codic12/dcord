@@ -1,7 +1,7 @@
 {
   "name": "dcord",
   "description": "discord client library",
-  "authors": ["Andrei Zbikowski", "Codic"],
+  "authors": ["Codic"],
   "homepage": "http://github.com/codic12/dcord",
   "license": "zlib",
   "targetType": "library",
