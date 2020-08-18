@@ -7,7 +7,7 @@ import std.stdio;
 
 public import std.experimental.logger;
 
-import std.algorithm.iteration;
+import std.algorithm.iteration, std.array;
 
 import dcord.api,
        dcord.types,
@@ -90,13 +90,7 @@ class Client {
       messages = the array of messages.
   */
   void deleteMessages(Snowflake channelID, Message[] messages) {
-    Snowflake[] msgIDs;
-
-    foreach(message; messages){
-      msgIDs ~= message.id;
-    }
-
-    return deleteMessages(channelID, msgIDs);
+    deleteMessages(channelID, messages.map!(m => m.id).array);
   }
 
   /**
