@@ -1,19 +1,19 @@
 {
-  "name": "dscord-examples",
+  "name": "dcord-examples",
   "targetType": "executable",
   "dependencies": {
-    "dscord": {"path": "../"}
+    "dcord": {"path": "../"}
   },
   "configurations": [
     {
-      "name": "dscord-examples-linux-static-x64",
+      "name": "dcord-examples-linux-static-x64",
       "subConfigurations": {
-        "dscord": "dscord-linux-static-x64"
+        "dcord": "dcord-linux-static-x64"
       },
       "platforms": ["linux", "x86_64"]
     },
     {
-      "name": "dscord"
+      "name": "dcord"
     }
   ]
 }

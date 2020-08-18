@@ -15,14 +15,14 @@ import vibe.core.core;
 import vibe.http.client;
 
 
-import dscord.core,
-       dscord.util.process,
-       dscord.util.emitter;
+import dcord.core,
+       dcord.util.process,
+       dcord.util.emitter;
 
 import core.sys.posix.signal;
 import etc.linux.memoryerror;
 
-import dscord.util.string : camelCaseToUnderscores;
+import dcord.util.string : camelCaseToUnderscores;
 
 class BasicPlugin : Plugin {
   @Listener!(MessageCreate, EmitterOrder.AFTER)

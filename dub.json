@@ -1,19 +1,17 @@
 {
-  "name": "dscord",
+  "name": "dcord",
   "description": "discord client library",
-  "authors": ["Andrei Zbikowski"],
-  "homepage": "http://github.com/b1naryth1ef/dscord",
+  "authors": ["Andrei Zbikowski", "Codic"],
+  "homepage": "http://github.com/codic12/dcord",
   "license": "zlib",
   "targetType": "library",
   "dependencies": {
-    "shaker": "~>0.0.8",
     "vibe-d:core": "~>0.8.5",
-    "vibe-d:http": "~>0.8.5",
-    "dcad": "~>0.0.9"
+    "vibe-d:http": "~>0.8.5"
   },
   "configurations": [
     {
-      "name": "dscord-linux-static-x64",
+      "name": "dcord-linux-static-x64",
       "platforms": ["linux", "x86_64"],
       "subConfigurations": {
         "shaker": "shaker-static-x64",
@@ -21,7 +19,7 @@
       }
     },
     {
-      "name": "dscord-linux-dynamic",
+      "name": "dcord-linux-dynamic",
       "platforms": ["linux"],
       "subConfigurations": {
         "shaker": "shaker-dynamic",
@@ -29,12 +27,12 @@
       }
     },
     {
-      "name": "dscord-osx",
+      "name": "dcord-osx",
       "lflags": ["-L/usr/local/opt/openssl/lib"],
       "platforms": ["OSX"]
     },
     {
-      "name": "dscord-windows",
+      "name": "dcord-windows",
       "platforms": ["Windows"]
     }
   ],
