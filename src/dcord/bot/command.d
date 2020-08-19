@@ -119,7 +119,7 @@ class CommandObject {
   string  description;
 
   /// The permissions level required for the command
-  int     level;
+  int level;
 
   /// Whether this command is enabled
   bool  enabled = true;
@@ -141,7 +141,7 @@ class CommandObject {
     bool        useRegex;
   }
 
-  //Takes an aliasSeq of arguments from getUDAs, which automatically expands for as many UDAs as are given
+  /// Takes an aliasSeq of arguments from getUDAs, which automatically expands for as many UDAs as are given
   this(T...)(CommandHandler func, T t) {
     this.func = func;   //Assign the event handler.
     

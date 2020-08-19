@@ -48,9 +48,7 @@ class APIClient {
     this.token = client.token;
     this.ratelimit = new RateLimiter;
 
-    this.userAgent = format("Discord bot (%s) %s",
-        GITHUB_REPO,
-        "vibe.d/" ~ vibeVersionString);
+    this.userAgent = "Discord bot with Dscord (" ~ vibeVersionString ~ "), using Vibe.d " ~ vibeVersionString;
   }
 
   /**

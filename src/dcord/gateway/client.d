@@ -37,35 +37,35 @@ const ubyte GATEWAY_VERSION = 6;
 */
 class GatewayClient {
   /** Client instance for this gateway connection */
-  Client     client;
+  Client client;
 
   /** WebSocket connection for this gateway connection */
-  WebSocket  sock;
+  WebSocket sock;
 
   /** Gateway SessionID, used for resuming. */
-  string  sessionID;
+  string sessionID;
 
   /** Gateway sequence number, used for resuming */
-  uint    seq;
+  uint seq;
 
   /** Heartbeat interval */
-  uint    heartbeatInterval;
+  uint heartbeatInterval;
 
   /** Whether this GatewayClient is currently connected */
-  bool    connected;
+  bool connected;
 
   /** Number of reconnects attempted */
-  ubyte   reconnects;
+  ubyte reconnects;
 
   /** The heartbeater task */
-  Task    heartbeater;
+  Task heartbeater;
 
   /** Event emitter for Gateway Packets */
-  Emitter  eventEmitter;
+  Emitter eventEmitter;
 
   private {
     /** Cached gateway URL from the API */
-    string  cachedGatewayURL;
+    string cachedGatewayURL;
     Counter!string eventCounter;
     bool eventTracking;
   }
@@ -87,9 +87,7 @@ class GatewayClient {
     // Copy emitters to client for easier API access
     client.events = this.eventEmitter;
 
-    if (this.eventTracking) {
-      this.eventCounter = new Counter!string;
-    }
+    if (this.eventTracking) this.eventCounter = new Counter!string;
   }
 
   /**
@@ -154,6 +152,7 @@ class GatewayClient {
 
   private void handleResumedEvent(Resumed r) {
     this.heartbeater = runTask(toDelegate(&this.heartbeat));
+    // TODO: do an action in a closure with the Resumed event
   }
 
   private void emitDispatchEvent(T)(VibeJSON obj) {

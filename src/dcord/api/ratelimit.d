@@ -33,7 +33,7 @@ struct RateLimitState {
   /// Returns true if this request is valid
   bool willRateLimit() {
     if (this.remaining - 1 < 0) {
-      if (getUnixTime() <= this.resetTime) {
+      if (getEpochTime() <= this.resetTime) {
         return true;
       }
     }
@@ -43,7 +43,7 @@ struct RateLimitState {
 
   /// Return the time that needs to be waited before another request can be made
   Duration waitTime() {
-    return (this.resetTime - getUnixTime()).seconds + 500.msecs;
+    return (this.resetTime - getEpochTime()).seconds + 500.msecs;
   }
 }
 
@@ -99,7 +99,7 @@ class RateLimiter {
       fpctrl.rounding = FloatingPointControl.roundUp;
       long retryAfterSeconds = rndtol(retryAfter.to!long / 1000.0);
 
-      long nextRequestAt = getUnixTime() + retryAfterSeconds;
+      long nextRequestAt = getEpochTime() + retryAfterSeconds;
       if (nextRequestAt > resetSeconds) {
         resetSeconds = nextRequestAt;
       }

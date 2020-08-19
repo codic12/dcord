@@ -157,28 +157,28 @@ class MessageEmbed : IModel, Sendable {
   immutable(bool) getTTS() { return false; }
 }
 
-class MessageAttachment : IModel {
+class MessageAttachment: IModel {
   mixin Model;
 
-  Snowflake  id;
-  string     filename;
-  uint       size;
-  string     url;
-  string     proxyUrl;
-  uint       height;
-  uint       width;
+  Snowflake id;
+  string filename;
+  uint size;
+  string url;
+  string proxyUrl;
+  uint height;
+  uint width;
 }
 
-class Message : IModel {
+class Message: IModel {
   mixin Model;
 
-  Snowflake  id;
-  Snowflake  channelID;
-  User       author;
-  string     content;
-  bool       tts;
-  bool       mentionEveryone;
-  bool       pinned;
+  Snowflake id;
+  Snowflake channelID;
+  User author;
+  string content;
+  bool tts;
+  bool mentionEveryone;
+  bool pinned;
 
   // Nonce is very unpredictable and user-provided, so we don't unpack it into
   //  a concrete type.
@@ -213,7 +213,7 @@ class Message : IModel {
     return this.client.state.channels.get(this.channelID);
   }
 
-  override string toString() {
+  override string toString() { // stfu
     return format("<Message %s>", this.id);
   }
 
@@ -338,13 +338,13 @@ class Message : IModel {
     return matchAll(this.content, regex("<:\\w+:(\\d+)>")).map!((m) => m.back.to!Snowflake).array;
   }
 
-  /// Whether the bot can edit this message
+  /// Whether the bot can delete this message.
   bool canDelete() {
     return (this.author.id == this.client.state.me.id ||
       this.channel.can(this.client.state.me, Permissions.MANAGE_MESSAGES));
   }
 
-  /// Whether the bot can edit this message
+  /// Whether the bot can edit this message. 
   bool canEdit() {
     return (this.author.id == this.client.state.me.id);
   }

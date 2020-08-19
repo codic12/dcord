@@ -66,22 +66,22 @@ class Game {
 class Presence: IModel {
   mixin Model;
 
-  User        user;
-  Game        game;
-  UserStatus  status;
+  User user; /// the user that the presence is coming from
+  Game game; /// a Game object for the presence
+  UserStatus status; /// user status
 }
 
 class User: IModel {
   mixin Model;
 
-  Snowflake  id;
-  string     username;
-  string     discriminator;
-  string     avatar;
-  bool       verified;
-  string     email;
+  Snowflake id; /// the user's ID
+  string username; /// the user's username
+  string discriminator; /// the user's unique four digit discriminator
+  string avatar; /// a url pointing to the user's avatar
+  bool verified; /// bool representing whether the user is verified or not
+  string email; /// email if account is linked with an email
 
-  override string toString() {
+  override string toString() { // stfu
     return format("<User %s#%s (%s)>", this.username, this.discriminator, this.id);
   }
 

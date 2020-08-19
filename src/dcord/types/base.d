@@ -199,8 +199,8 @@ mixin template Model() {
     return new AsyncChainer!(typeof(this))(this);
   }
 
-  void call(string blah, T...)(T args) {
-    __traits(getMember, this, blah)(args);
+  void call(string s, T...)(T args) {
+    __traits(getMember, this, s)(args);
   }
 
 }

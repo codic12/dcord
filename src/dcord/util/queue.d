@@ -1,5 +1,5 @@
 /**
-  A FIFO queue implementation.
+  A FIFO queue implementation
 */
 module dcord.util.queue;
 
@@ -10,7 +10,7 @@ import std.container.dlist,
        core.time;
 
 /**
-  A simple Queue of type T.
+  A simple Queue of type T
 */
 class Queue(T) {
   private DList!(T) data;
@@ -18,10 +18,12 @@ class Queue(T) {
   /// Returns the size of the array
   private size_t _size;
 
+  /// Set the size of the array
   void setSize(size_t size) {
     this._size = size;
   }
-
+  
+  /// Get the size of the array.
   @property size_t size() {
     return this._size;
   }
@@ -60,10 +62,7 @@ class Queue(T) {
   /// Pops a single item off the front of the queue. Throws an exception if the
   //   queue is empty.
   T pop() {
-    if (this.data.empty) {
-      throw new Exception("Cannot pop from empty Queue");
-    }
-
+    if(this.data.empty) throw new Exception("Cannot peak into empty Queue");
     T v = this.data.front;
     this.data.removeFront();
     this.setSize(this.size - 1);
@@ -72,19 +71,13 @@ class Queue(T) {
 
   /// Peaks at the last item in the queue.
   T peakBack() {
-    if (this.data.empty) {
-      throw new Exception("Cannot peak into empty Queue");
-    }
-
+    if(this.data.empty) throw new Exception("Cannot peak into empty Queue");
     return this.data.back;
   }
 
   /// Peaks at the first item in the queue.
   T peakFront() {
-    if (this.data.empty) {
-      throw new Exception("Cannot peak into empty Queue");
-    }
-
+    if(this.data.empty) throw new Exception("Cannot peak into empty Queue");
     return this.data.front;
   }
 }
@@ -92,7 +85,7 @@ class Queue(T) {
 /**
   A blocking queue of type T.
 */
-class BlockingQueue(T) : Queue!T {
+class BlockingQueue(T): Queue!T {
   private ManualEvent onInsert;
   private ManualEvent onModify;
 
@@ -152,11 +145,11 @@ class BlockingQueue(T) : Queue!T {
 }
 
 /**
-  A SizedQueue of type T.
+  A SizedQueue of type T
 */
-class SizedQueue(T) : Queue!T {
+class SizedQueue(T): Queue!T {
   /// Maximum size of the queue
-  size_t     maxSize;
+  size_t maxSize;
 
   this(size_t maxSize) {
     this.maxSize = maxSize;
@@ -167,11 +160,13 @@ class SizedQueue(T) : Queue!T {
     return this.size == this.maxSize;
   }
 
+  /// Push an element to the queue
   override bool push(T item) {
     if (this.size == this.maxSize) return false;
     return super.push(item);
   }
 
+  /// Push another queue to the queue
   override bool push(T[] arr) {
     if (arr.length + this.size > this.maxSize) return false;
     return super.push(arr);

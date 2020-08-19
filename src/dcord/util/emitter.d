@@ -155,7 +155,8 @@ class Emitter {
     this.emitByName!T(T.stringof, obj, false);
     this.emitByName!T(T.stringof, obj, true);
   }
-
+  
+  /// Emit an event by name.
   private void emitByName(T)(string name, T obj, bool all) {
     Variant v;
 

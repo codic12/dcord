@@ -15,7 +15,6 @@ import dcord.api,
        dcord.gateway,
        dcord.util.emitter;
 
-
 /**
   Struct containing configuration for Gateway sharding
 */
@@ -102,11 +101,10 @@ class Client {
       msgIDs = the array of message IDs
   */
   void deleteMessages(Snowflake channelID, Snowflake[] msgIDs) {
-    if (msgIDs.length <= 2) {
+    if(msgIDs.length <= 2) { // Deleting messages in bulk isn't needed here, the overhead would be less than the speed benefits.
       msgIDs.each!(x => this.api.channelsMessagesDelete(channelID, x));
-    } else {
+    } else { // It would be fastest to delete in bulk.
       this.api.channelsMessagesDeleteBulk(channelID, msgIDs);
     }
   }
-
 }

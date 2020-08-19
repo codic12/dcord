@@ -127,10 +127,12 @@ class Channel: IModel, IPermissible {
     return this.type == ChannelType.GUILD_CATEGORY;
   }
 
+  /// Get all voice states for this channel
   @property auto voiceStates() {
     return this.guild.voiceStates.filter(c => c.channelID == this.id);
   }
 
+  /// Get permissions for a user in this channel
   override Permission getPermissions(Snowflake user) {
     GuildMember member = this.guild.getMember(user);
     Permission perm = this.guild.getPermissions(user);

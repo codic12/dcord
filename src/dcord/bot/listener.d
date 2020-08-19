@@ -19,7 +19,7 @@ import dcord.types,
   Params:
     T = Event type to listen for
 */
-ListenerDef!T Listener(T, EmitterOrder order = EmitterOrder.UNSPECIFIED)() {
+ListenerDef!T Listener(T, EmitterOrder order = EmitterOrder.UNSPECIFIED)() { // stfu
   return ListenerDef!(T)(T.stringof, order, (event, func) {
     func(event.get!(T));
   });
@@ -39,13 +39,13 @@ struct ListenerDef(T) {
 */
 class ListenerObject {
   /** The class name of the event this listener is for */
-  string  clsName;
+  string clsName;
 
   /// Emitter order for this event listener
   EmitterOrder order;
 
   /** EventListener function for this Listener */
-  EventListener  listener;
+  EventListener listener;
 
   /** Utility variant caller for converting event type */
   void delegate(Variant v) func;
