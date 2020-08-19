@@ -145,7 +145,6 @@ class IModel {
   Client  client;
 
   void initialize() {};
-  // void load(JSONDecoder obj) {};
 
   this() {}
 
@@ -235,16 +234,14 @@ class ModelMap(TKey, TValue) {
     return value;
   }
 
-  /// Return the value for a key. Throws an exception if the key does not exist.
+  /// Return the value for a key. Throws an exception if the key does not exist
   TValue get(TKey key) {
     return this.data[key];
   }
 
-  /// Return the value for a key, or if it doesn't exist a default value.
+  /// Return the value for a key, or if it doesn't exist a specified default value
   TValue get(TKey key, TValue def) {
-    if (this.has(key)) {
-      return this.get(key);
-    }
+    if(this.has(key)) return this.get(key);
     return def;
   }
 
@@ -253,7 +250,7 @@ class ModelMap(TKey, TValue) {
     this.data.remove(key);
   }
 
-  /// Returns true if the key exists within the mapping.
+  /// Returns true if the key exists within the mapping
   bool has(TKey key) {
     return (key in this.data) != null;
   }
@@ -268,12 +265,12 @@ class ModelMap(TKey, TValue) {
     this.set(key, value);
   }
 
-  /// Returns the length of the mapping.
+  /// Returns the length of the mapping
   size_t length() {
     return this.data.length;
   }
 
-  /// Returns a new mapping from a subset of keys.
+  /// Returns a new mapping from a subset of keys
   auto subset(TKey[] keysWanted) {
     auto obj = new ModelMap!(TKey, TValue);
 
@@ -289,14 +286,14 @@ class ModelMap(TKey, TValue) {
     mapping.
 
     Params:
-      f = a delegate which returns true if the passed in key/value matches.
+      f = a delegate which returns true if the passed in key/value matches
   */
   auto filter(bool delegate(TKey, TValue) f) {
-    return this.subset(this.data.keys.filter!((k) => f(k, this.get(k))).array);
+    return this.subset(this.data.keys.filter!(k => f(k, this.get(k))).array);
   }
 
   /**
-    Allows using a delegate to filter the values of the mapping.
+    Allows using a delegate to filter the values of the mapping
 
     Params:
       f = a delegate which returns true if the passed in value matches.
@@ -306,7 +303,7 @@ class ModelMap(TKey, TValue) {
   }
 
   /**
-    Allows applying a delegate over the values of the mapping.
+    Allows applying a delegate over the values of the mapping
 
     Params:
       f = a delegate which is applied to each value in the mapping.
@@ -317,7 +314,7 @@ class ModelMap(TKey, TValue) {
 
   /**
     Returns a single value from the mapping, based on the return value of a
-    delegate.
+    delegate
 
     Params:
       f = a delegate which returns true if the value passed in matches.
@@ -332,12 +329,12 @@ class ModelMap(TKey, TValue) {
     return def;
   }
 
-  /// Returns an array of keys from the mapping.
+  /// Returns an array of keys from the mapping
   auto keys() {
     return this.data.keys;
   }
 
-  /// Returns an array of values from the mapping.
+  /// Returns an array of values from the mapping
   auto values() {
     return this.data.values;
   }
@@ -347,6 +344,7 @@ class ModelMap(TKey, TValue) {
     return nWayUnion([this.keys, other]).array;
   }
 
+  /// Allows applying an operation as a delegate to the ModelMap
   int opApply(int delegate(ref TKey, ref TValue) dg) {
     int result = 0;
     foreach (a, b; this.data) {

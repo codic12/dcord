@@ -75,12 +75,6 @@ VibeJSON serializeToJSON(T)(T sourceObj, string[] ignoredFields = []) {
 
       static if (hasUDA!(mixin("sourceObj." ~ fieldName), JSONListToMap)) {
         version (JSON_DEBUG) pragma(msg, "    -= TODO");
-        // TODO
-        /+
-          __traits(getMember, sourceObj, fieldName) = typeof(__traits(getMember, sourceObj, fieldName)).fromJSONArray!(
-            getUDAs!(mixin("sourceObj." ~ fieldName), JSONListToMap)[0].field
-          )(sourceObj, fieldData);
-        +/
       } else {
         version (JSON_DEBUG) pragma(msg, "    -= dumpSingleField");
         result[dstFieldName] = dumpSingleField(mixin("sourceObj." ~ fieldName));
@@ -312,7 +306,7 @@ unittest {
   );
 
   // Test Timestamp
-  import std.datetime : SysTime;
+  import std.datetime: SysTime;
 
   class TestTimestampClass {
     @JSONTimestamp

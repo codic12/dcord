@@ -30,11 +30,13 @@ class VoiceState: IModel {
       this.channelID,
       this.userID);
   }
-
+  
+  /// Get the guild of the voice state
   @property Guild guild() {
     return this.client.state.guilds[this.guildID];
   }
 
+  /// Get the channel of the voice state
   @property Channel channel() {
     return this.client.state.channels[this.channelID];
   }
