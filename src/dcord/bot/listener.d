@@ -62,7 +62,8 @@ class ListenerObject {
 */
 mixin template Listenable() {
   ListenerObject[]  listeners;
-
+  
+  /// Load all listeners.
   void loadListeners(T)() {
     // TODO: make this cleaner 
     foreach (mem; __traits(allMembers, T)) {
@@ -76,9 +77,7 @@ mixin template Listenable() {
     }
   }
 
-  /**
-    Registers a listener from a ListenerObject
-  */
+  /// Registers a listener from a ListenerObject
   void registerListener(ListenerObject obj) {
     this.listeners ~= obj;
   }

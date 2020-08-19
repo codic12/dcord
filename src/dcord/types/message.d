@@ -19,7 +19,7 @@ interface Sendable {
   /// Returns the embed (or null if none) for this sendable
   immutable(MessageEmbed) getEmbed();
 
-  /// Returns the contents for this sendable, no more than 2000 chars long
+  /// Returns the contents for this sendable, no more than 2000 character long
   immutable(string) getContents();
 
   /// Returns the nonce for this sendable
@@ -32,27 +32,31 @@ interface Sendable {
   //immutable(Attachment[]) getAttachments();
 }
 
-class BaseSendable : Sendable {
+/// BaseSendable implements the Sendable interface, and is the base implementation for all sendables
+class BaseSendable: Sendable {
+  /// Get embed from sendable
   immutable(MessageEmbed) getEmbed() {
     return null;
   }
 
+  /// Get contents from sendable
   immutable(string) getContents() {
     return "";
   }
 
+  /// Get nonce of sendable
   immutable(string) getNonce() {
     return "";
   }
-
+  
+  /// Find whether the sendable has TTS (text-to-speech) enabled
   immutable(bool) getTTS() {
     return false;
   }
 }
 
-/**
-  Enum of all types a message can be.
-*/
+
+/// Enumeration of all types a message can be.
 enum MessageType {
   DEFAULT = 0,
   RECIPIENT_ADD = 1,
@@ -65,91 +69,91 @@ enum MessageType {
 }
 
 // TODO
-class MessageReaction : IModel {
+class MessageReaction: IModel {
   mixin Model;
 }
 
-class MessageEmbedFooter : IModel {
+class MessageEmbedFooter: IModel {
   mixin Model;
 
-  string  text;
+  string text;
 
   @JSONSource("icon_url")
-  string  iconURL;
+  string iconURL;
 
   @JSONSource("proxy_icon_url")
-  string  proxyIconURL;
+  string proxyIconURL;
 }
 
-class MessageEmbedImage : IModel {
+class MessageEmbedImage: IModel {
   mixin Model;
 
-  string  url;
+  string url;
 
   @JSONSource("proxy_url")
-  string  proxyURL;
+  string proxyURL;
 
-  uint    width;
-  uint    height;
+  uint width;
+  uint height;
 }
 
-class MessageEmbedThumbnail : IModel {
+class MessageEmbedThumbnail: IModel {
   mixin Model;
 
-  string  url;
+  string url;
 
   @JSONSource("proxy_url")
-  string  proxyURL;
+  string proxyURL;
 
-  uint    width;
-  uint    height;
+  uint width;
+  uint height;
 }
 
-class MessageEmbedVideo : IModel {
+class MessageEmbedVideo: IModel {
   mixin Model;
 
-  string  url;
-  uint    height;
-  uint    width;
+  string url;
+  uint height;
+  uint width;
 }
 
-class MessageEmbedAuthor : IModel {
+class MessageEmbedAuthor: IModel {
   mixin Model;
 
-  string  name;
-  string  url;
+  string name;
+  string url;
 
   @JSONSource("icon_url")
-  string  iconURL;
+  string iconURL;
 
   @JSONSource("proxy_icon_url")
-  string  proxyIconURL;
+  string proxyIconURL;
 }
 
-class MessageEmbedField : IModel {
+class MessageEmbedField: IModel {
   mixin Model;
 
-  string  name;
-  string  value;
-  bool    inline;
+  string name;
+  string value;
+  bool inline;
 }
 
 class MessageEmbed : IModel, Sendable {
   mixin Model;
 
-  string  title;
-  string  type;
-  string  description;
-  string  url;
-  string  timestamp;
-  uint    color;
+  string title;
+  string type;
+  string description;
+  string url;
+  string timestamp;
+  uint color;
 
-  MessageEmbedFooter     footer;
-  MessageEmbedImage      image;
-  MessageEmbedThumbnail  thumbnail;
-  MessageEmbedVideo      video;
-  MessageEmbedAuthor     author;
-  MessageEmbedField[]    fields;
+  MessageEmbedFooter footer;
+  MessageEmbedImage image;
+  MessageEmbedThumbnail thumbnail;
+  MessageEmbedVideo video;
+  MessageEmbedAuthor author;
+  MessageEmbedField[] fields;
 
   immutable(MessageEmbed) getEmbed() { return cast(immutable(MessageEmbed))this; }
   immutable(string) getContents() { return ""; }
@@ -194,21 +198,23 @@ class Message: IModel {
 
   // TODO: GuildMemberMap here
   @JSONListToMap("id")
-  UserMap    mentions;
+  UserMap mentions;
 
   @JSONSource("mention_roles")
-  Snowflake[]    roleMentions;
+  Snowflake[] roleMentions;
 
   // Embeds
-  MessageEmbed[]  embeds;
+  MessageEmbed[] embeds;
 
   // Attachments
-  MessageAttachment[]  attachments;
+  MessageAttachment[] attachments;
 
+  /// Get the guild that the message is from
   @property Guild guild() {
     return this.channel.guild;
   }
 
+  /// Get the channel that the message is from
   @property Channel channel() {
     return this.client.state.channels.get(this.channelID);
   }
@@ -242,9 +248,8 @@ class Message: IModel {
     specified delegate.
   */
   string replaceMentions(string delegate(Message, User) fu, string delegate(Message, Snowflake) fr) {
-    if (!this.mentions.length && !this.roleMentions.length) {
+    if(!this.mentions.length && !this.roleMentions.length) 
       return this.content;
-    }
 
     string result = this.content;
     foreach (ref User user; this.mentions.values) {
@@ -311,10 +316,7 @@ class Message: IModel {
     Deletes this message.
   */
   void del() {
-    if (!this.canDelete()) {
-      throw new PermissionsError(Permissions.MANAGE_MESSAGES);
-    }
-
+    if (!this.canDelete()) throw new PermissionsError(Permissions.MANAGE_MESSAGES);
     return this.client.api.channelsMessagesDelete(this.channelID, this.id);
   }
 
@@ -335,7 +337,7 @@ class Message: IModel {
     Returns an array of emoji IDs for all custom emoji used in this message.
   */
   @property Snowflake[] customEmojiByID() {
-    return matchAll(this.content, regex("<:\\w+:(\\d+)>")).map!((m) => m.back.to!Snowflake).array;
+    return matchAll(this.content, regex("<:\\w+:(\\d+)>")).map!(m => m.back.to!Snowflake).array;
   }
 
   /// Whether the bot can delete this message.

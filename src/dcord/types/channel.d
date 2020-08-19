@@ -139,8 +139,8 @@ class Channel: IModel, IPermissible {
 
     // Apply any role overwrites
     foreach (overwrite; this.overwrites.values) {
-      if (overwrite.type != PermissionOverwriteType.ROLE) continue;
-      if (!member.roles.canFind(overwrite.id)) continue;
+      if(overwrite.type != PermissionOverwriteType.ROLE) continue;
+      if(!member.roles.canFind(overwrite.id)) continue;
       perm ^= overwrite.deny;
       perm |= overwrite.allow;
     }

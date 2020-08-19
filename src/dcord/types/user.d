@@ -73,21 +73,27 @@ class Presence: IModel {
 
 class User: IModel {
   mixin Model;
-
-  Snowflake id; /// the user's ID
-  string username; /// the user's username
-  string discriminator; /// the user's unique four digit discriminator
-  string avatar; /// a url pointing to the user's avatar
-  bool verified; /// bool representing whether the user is verified or not
-  string email; /// email if account is linked with an email
+  /// The user's ID
+  Snowflake id;
+  /// The user's username
+  string username;
+  /// The user's unique four digit discriminator
+  string discriminator;
+  /// A URL pointing to the user's avatar
+  string avatar;
+  /// A boolean representing whether the user is verified
+  bool verified;
+  /// The user's email, if the account is linked with one
+  string email;
 
   override string toString() { // stfu
     return format("<User %s#%s (%s)>", this.username, this.discriminator, this.id);
   }
 
   string getAvatarURL(string fmt = null, size_t size = 1024) {
-    if (!this.avatar) {
-      return format("https://cdn.discordapp.com/embed/avatars/%s.png", cast(int)this.defaultAvatarColor);
+    // TODO: when Discord moves it's CDN to cdn.discord.com, move accordingly to avoid overhead of redirects
+    if (!this.avatar) { // if no avatar is detected
+      return format("https://cdn.discordapp.com/embed/avatars/%s.png", cast(int)this.defaultAvatarColor); // return the default avatar
     }
 
     if (fmt is null) {

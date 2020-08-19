@@ -152,6 +152,7 @@ class RequestGuildMembers: BasePacket, Serializable {
 }
 
 class StatusUpdate: BasePacket, Serializable {
+  /// The game for the presence update
   Game game;
 
   this(Game game=null) {
