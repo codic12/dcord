@@ -150,7 +150,7 @@ class GatewayClient {
     }
   }
 
-  private void handleResumedEvent(Resumed r) {
+  private void handleResumedEvent(Resumed r) { // stfu
     this.heartbeater = runTask(toDelegate(&this.heartbeat));
     // TODO: do an action in a closure with the Resumed event
   }
@@ -165,7 +165,7 @@ class GatewayClient {
 
   private void handleDispatchPacket(VibeJSON obj, size_t size) {
     // Update sequence number if it's larger than what we have
-    uint seq = obj["s"].get!uint;
+    uint seq = obj["s"].get!uint; // stfu
     if (seq > this.seq) {
       this.seq = seq;
     }
@@ -311,25 +311,25 @@ class GatewayClient {
   }
 
   private void heartbeat() {
-    while (this.connected) {
+    while(this.connected) {
       this.send(new HeartbeatPacket(this.seq));
       sleep(this.heartbeatInterval.msecs);
     }
   }
 
-  /**
-    Runs the GatewayClient until completion.
-  */
+  /// Runs the GatewayClient until completion 
   void run() {
     string data;
 
     // If we already have a sequence number, attempt to resume
-    if (this.sessionID && this.seq) {
-      this.log.infof("Sending Resume Payload (we where %s at %s)", this.sessionID, this.seq);
+    if(this.sessionID && this.seq) {
+      this.log.infof("Sending resume payload (session ID %s with gateway sequence number %s)",
+      this.sessionID, this.seq);
+      
       this.send(new ResumePacket(this.client.token, this.sessionID, this.seq));
     } else {
       // On startup, send the identify payload
-      this.log.info("Sending Identify Payload");
+      this.log.info("Sending identify payload");
       this.send(new IdentifyPacket(
           this.client.token,
           this.client.shardInfo.shard,
@@ -339,24 +339,20 @@ class GatewayClient {
     this.log.info("Connected to Gateway");
     this.connected = true;
     while (this.sock.waitForData()) {
-      if (!this.connected) break;
-
+      if(!this.connected) break;
       try {
         ubyte[] rawdata = this.sock.receiveBinary();
-        data = cast(string)uncompress(rawdata);
+        data = cast(string)uncompress(rawdata); // raw cast could be dangerous - maybe use toString in the future 
       } catch (Exception e) {
         data = this.sock.receiveText();
       }
-
-      if (data == "") {
-        continue;
-      }
+      if(data == "") continue; 
 
       try {
         this.parse(data);
-      } catch (Exception e) {
+      } catch(Exception e) {
         this.log.warningf("failed to handle data (%s)", e);
-      } catch (Error e) {
+      } catch(Error e) { // stfu
         this.log.warningf("failed to handle data (%s)", e);
       } 
     }
@@ -365,12 +361,12 @@ class GatewayClient {
     this.connected = false;
     this.reconnects++;
 
-    if (this.reconnects > MAX_RECONNECTS) {
+    if(this.reconnects > MAX_RECONNECTS) {
       this.log.errorf("Max Gateway reconnects (%s) hit, aborting...", this.reconnects);
       return;
     }
 
-    if (this.reconnects > 1) {
+    if(this.reconnects > 1) {
       this.sessionID = null;
       this.seq = 0;
       this.log.warning("Waiting 5 seconds before reconnecting...");

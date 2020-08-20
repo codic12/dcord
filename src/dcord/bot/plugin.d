@@ -151,12 +151,12 @@ class Plugin {
     this.bot = bot;
 
     // Make sure our storage directory exists
-    if (this.options.useStorage && !exists(this.storageDirectoryPath)) {
+    if(this.options.useStorage && !exists(this.storageDirectoryPath)) {
       mkdirRecurse(this.storageDirectoryPath);
     }
 
     // If we got state, assume this was a plugin reload and replace
-    if (state) {
+    if(state) {
       this.state = state;
     } else {
       // If plugin uses storage, load the storage from disk
@@ -166,7 +166,7 @@ class Plugin {
       }
 
       // If plugin uses config, load the config from disk
-      if (this.options.useConfig) {
+      if(this.options.useConfig) {
         this.config.load();
         this.config.save();
       }
@@ -177,7 +177,6 @@ class Plugin {
     if (this.options.useOverrides && this.config) {
       if (this.config.has("levels")) {
         auto levels = this.config.get!(VibeJSON[string])("levels");
-
         foreach (name, level; levels) {
           auto cmd = this.commands[name];
           cmd.level = level.get!int;
@@ -189,22 +188,14 @@ class Plugin {
     }
 
     // If we have an override value for the commandgroup, set it now on all commands
-    if (group != "") {
-      foreach (command; this.commands.values) {
-        command.setGroup(group);
-      }
-    }
+    if(group != "") 
+      foreach(command; this.commands.values) command.setGroup(group);
   }
 
   /// Used to unload the Plugin. Saves config/storage if required.
   void unload(Bot bot) {
-    if (this.options.useStorage) {
-      this.storage.save();
-    }
-
-    if (this.options.useConfig) {
-      this.config.save();
-    }
+    if(this.options.useStorage) this.storage.save();
+    if(this.options.useConfig) this.config.save();
   }
 
   /// Returns path to this plugins storage directory.

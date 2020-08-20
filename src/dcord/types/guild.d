@@ -224,15 +224,14 @@ class Guild : IModel, IPermissible {
   }
 
   override Permission getPermissions(Snowflake user) {
-    // If we're the owner, we have alllll the permissions
-    if (this.ownerID == user) {
-      return Permissions.ADMINISTRATOR;
-    }
+    // If the user is the owner, they have all permisisons 
+    if(this.ownerID == user)return Permissions.ADMINISTRATOR;
+    
 
     // Otherwise grab the member object
     GuildMember member = this.getMember(user);
     Permission perm;
-    auto roles = member.roles.map!((rid) => this.roles.get(rid));
+    auto roles = member.roles.map!(rid => this.roles.get(rid));
 
     // Iterate over roles and add permissions
     foreach (role; roles) {

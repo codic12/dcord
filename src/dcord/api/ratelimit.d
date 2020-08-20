@@ -32,11 +32,8 @@ struct RateLimitState {
 
   /// Returns true if this request is valid
   bool willRateLimit() {
-    if (this.remaining - 1 < 0) {
-      if (getEpochTime() <= this.resetTime) {
-        return true;
-      }
-    }
+    if(this.remaining - 1 < 0) 
+      if(getEpochTime() <= this.resetTime) return true; 
 
     return false;
   }
@@ -51,12 +48,12 @@ struct RateLimitState {
   RateLimiter provides an interface for rate limiting HTTP Requests.
 */
 class RateLimiter {
-  LocalManualEvent[Bucket]     cooldowns;
-  RateLimitState[Bucket]  states;
+  LocalManualEvent[Bucket] cooldowns;
+  RateLimitState[Bucket] states;
 
   /// Cooldown a bucket for a given duration. Blocks ALL requests from completing.
   void cooldown(Bucket bucket, Duration duration) {
-    if (bucket in this.cooldowns) {
+    if(bucket in this.cooldowns) {
       this.cooldowns[bucket].wait();
     } else {
       this.cooldowns[bucket] = createManualEvent();
@@ -82,9 +79,8 @@ class RateLimiter {
     if (bucket !in this.states) return true;
 
     // If this request will rate limit, wait until it won't anymore
-    if (this.states[bucket].willRateLimit()) {
+    if(this.states[bucket].willRateLimit()) 
       this.cooldown(bucket, this.states[bucket].waitTime());
-    }
 
     return true;
   }
@@ -94,22 +90,18 @@ class RateLimiter {
     long resetSeconds = (reset.to!long);
 
     // If we have a retryAfter header, it may be more accurate
-    if (retryAfter != "") {
+    if(retryAfter != "") {
       FloatingPointControl fpctrl;
       fpctrl.rounding = FloatingPointControl.roundUp;
       long retryAfterSeconds = rndtol(retryAfter.to!long / 1000.0);
-
       long nextRequestAt = getEpochTime() + retryAfterSeconds;
-      if (nextRequestAt > resetSeconds) {
-        resetSeconds = nextRequestAt;
-      }
+      if(nextRequestAt > resetSeconds) resetSeconds = nextRequestAt;
     }
 
     // Create a new RateLimitState if one doesn't exist
-    if (bucket !in this.states) {
+    if(bucket !in this.states) 
       this.states[bucket] = RateLimitState();
-    }
-
+    
     // Save our remaining requests and reset seconds
     this.states[bucket].remaining = remaining.to!int;
     this.states[bucket].resetTime = resetSeconds;
