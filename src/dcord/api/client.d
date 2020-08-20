@@ -310,7 +310,7 @@ class APIClient {
     Deletes messages in bulk.
   */
   void channelsMessagesDeleteBulk(Snowflake chan, Snowflake[] msgIDs) {
-    VibeJSON payload = VibeJSON(["messages": VibeJSON(array(map!((m) => VibeJSON(m))(msgIDs)))]);
+    VibeJSON payload = VibeJSON(["messages": VibeJSON(array(map!(m => VibeJSON(m))(msgIDs)))]);
     this.requestJSON(Routes.CHANNELS_MESSAGES_DELETE_BULK(chan), payload).ok();
   }
 
@@ -319,5 +319,17 @@ class APIClient {
   */
   string gatewayGet() {
     return this.requestJSON(Routes.GATEWAY_GET()).ok().vibeJSON["url"].to!string;
+  }
+  /// Create a webhook.
+  void channelsCreateWebhook(Snowflake chan, string name, string avatar) {
+    VibeJSON payload = VibeJSON.emptyObject();
+    payload["name"] = name;
+    payload["avatar"] = avatar;
+    this.requestJSON(Routes.WEBHOOKS_CREATE(chan), payload).ok();
+  }
+
+  /// Delete a webhook.
+  void channelsDeleteWebhook(Snowflake id) {
+    this.requestJSON(Routes.WEBHOOKS_DELETE(id)).ok();
   }
 }

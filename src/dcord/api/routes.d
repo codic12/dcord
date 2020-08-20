@@ -106,7 +106,6 @@ enum Routes: Route {
   GUILDS_INTEGRATIONS_SYNC = Route(HTTPMethod.POST, "/guilds/$GUILD/integrations/%s/sync"),
   GUILDS_EMBED_GET = Route(HTTPMethod.GET, "/guilds/$GUILD/embed"),
   GUILDS_EMBED_MODIFY = Route(HTTPMethod.PATCH, "/guilds/$GUILD/embed"),
-
   USERS_ME_GET = Route(HTTPMethod.GET, "/users/@me"),
   USERS_ME_PATCH = Route(HTTPMethod.PATCH, "/users/@me"),
   USERS_ME_GUILDS_LIST = Route(HTTPMethod.GET, "/users/@me/guilds"),
@@ -118,5 +117,8 @@ enum Routes: Route {
 
   INVITES_GET = Route(HTTPMethod.GET, "/invites/%s"),
   INVITES_DELETE = Route(HTTPMethod.DELETE, "/invites/%s"),
+
+  WEBHOOKS_CREATE = Route(HTTPMethod.POST, "/channels/%s/webhooks"),
+  WEBHOOKS_DELETE = Route(HTTPMethod.DELETE, "/webhooks/%s"),
 }
 

@@ -86,6 +86,14 @@ class Channel: IModel, IPermissible {
     return this.client.api.channelsMessagesCreate(this.id, format(content, args), null, false, null);
   }
 
+  void createWebhook(string name, string avatar) {
+    return this.client.api.channelsCreateWebhook(this.id, name, avatar);
+  }
+
+  void deleteWebhook(Snowflake id) {
+    return this.client.api.channelsDeleteWebhook(id);
+  }
+
   Message sendMessage(Sendable obj) {
     return this.client.api.channelsMessagesCreate(
       this.id,
@@ -153,4 +161,5 @@ class Channel: IModel, IPermissible {
 
     return perm;
   }
+
 }
