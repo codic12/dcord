@@ -100,7 +100,7 @@ class GatewayClient {
   /**
     Starts a connection to the gateway. Also called for resuming/reconnecting.
   */
-  void start() {
+  void start(Game game=null) {
     if(this.sock && this.sock.connected) this.sock.close();
 
     // If this is our first connection, get a gateway websocket URL. Later on it is cached.
@@ -112,8 +112,10 @@ class GatewayClient {
     // Start the main task
     this.log.infof("Starting connection to Gateway WebSocket (%s)", this.cachedGatewayURL);
     this.sock = connectWebSocket(URL(this.cachedGatewayURL));
-    runTask(toDelegate(&this.run));
-
+    runTask({this.run(game);});
+    
+    // Set the status
+    this.send(new StatusUpdate(game));
   }
 
   /**
@@ -318,7 +320,7 @@ class GatewayClient {
   }
 
   /// Runs the GatewayClient until completion 
-  void run() {
+  void run(Game game=null) {
     string data;
 
     // If we already have a sequence number, attempt to resume
@@ -374,6 +376,6 @@ class GatewayClient {
     }
 
     this.log.info("Attempting reconnection...");
-    return this.start();
+    return this.start(game);
   }
 }

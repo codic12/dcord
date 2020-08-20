@@ -16,13 +16,13 @@ import dcord.api,
        dcord.gateway,
        dcord.util.emitter;
 
-/**
-  The State class is used to track and maintain client state.
-*/
+/// The State class is used to track and maintain client state.
 class State: Emitter {
-  // Client
+  /// Client instance
   Client client;
+  /// APIClient instance
   APIClient api;
+  /// GatewayClient instance
   GatewayClient gw;
 
   /// Currently logged in user, recieved from READY payload.
@@ -187,7 +187,7 @@ class State: Emitter {
       guild.voiceStates[u.state.sessionID] = u.state;
     }
   }
-
+  
   private void onGuildMembersChunk(GuildMembersChunk c) {
     // TODO
   }

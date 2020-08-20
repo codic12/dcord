@@ -146,8 +146,8 @@ class CommandObject {
     this.func = func;   //Assign the event handler.
     
     foreach(arg; t){
-      //This will be our run-time variable
-      auto argType = split(typeid(arg).toString, '"')[1];
+      // This will be our run-time variable
+      //auto argType = split(typeid(arg).toString, '"')[1];
 
       //Use the string passed by the enum (e.g. TypeTriggers) to assign parameters at run-time
       mixin("this." ~ split(typeof(arg).stringof, '"')[1] ~ " = " ~ "(arg.tupleof)[0];");
@@ -200,12 +200,12 @@ class CommandObject {
   @property string name() {
     return this.triggers[0];
   }
-
+  
+  /// Call a command event
   void call(CommandEvent e) {
     foreach (prefunc; this.pre) {
       if (!prefunc(e)) return;
     }
-
     this.func(e);
   }
 }
@@ -215,15 +215,15 @@ class CommandObject {
   and functionality.
 */
 class CommandEvent {
-  CommandObject  cmd;
-  MessageCreate  event;
-  Message        msg;
+  CommandObject cmd;
+  MessageCreate event;
+  Message msg;
 
   /** The message contents */
-  string    contents;
+  string contents;
 
   /** Array of arguments */
-  string[]  args;
+  string[] args;
 
   this(MessageCreate event) {
     this.event = event;
@@ -256,8 +256,9 @@ class CommandEvent {
   UDAs, storing them within a local "commands" mapping.
 */
 mixin template Commandable() {
-  CommandObject[string]  commands;
+  CommandObject[string] commands;
 
+  /// Load commands
   void loadCommands(T)() {
     import std.traits;
 
@@ -286,9 +287,7 @@ mixin template Commandable() {
     }
   }
 
-  /**
-    Registers a command from a CommandObject
-  */
+  /// Register a command from a CommandObject
   CommandObject registerCommand(CommandObject obj) {
     this.commands[obj.name] = obj;
     return obj;

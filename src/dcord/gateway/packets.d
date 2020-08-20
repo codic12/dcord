@@ -163,14 +163,8 @@ class StatusUpdate: BasePacket, Serializable {
     VibeJSON obj = VibeJSON.emptyObject;
     obj["game"] = VibeJSON.emptyObject; 
     obj["since"] = 0; 
-
-    if (this.game) {
-      obj["game"]["name"] = this.game.name;
-      obj["game"]["type"] = 0;
-    } else {
-      obj["game"]["name"] = "No game specified";
-      obj["game"]["type"] = 0;
-    }
+    obj["game"]["name"] = this.game.name;
+    obj["game"]["type"] = 0;
     obj["status"] = "online";
     obj["afk"] = VibeJSON(false);
     writeln(super.serialize(OPCode.STATUS_UPDATE, obj));

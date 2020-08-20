@@ -73,7 +73,8 @@ class Bot {
     this.client = new Client(this.config.token, lvl, this.config.shardInfo);
     this.log = this.client.log;
 
-    if(this.feature(BotFeatures.COMMANDS)) this.client.events.listen!MessageCreate(&this.onMessageCreate, EmitterOrder.BEFORE);
+    if(this.feature(BotFeatures.COMMANDS)) this.client.events.listen!MessageCreate(&this.onMessageCreate,
+        EmitterOrder.BEFORE);
     
   }
 
@@ -99,9 +100,7 @@ class Bot {
     p.unload(this);
     this.plugins.remove(p.name);
 
-    foreach (ref listener; p.listeners) {
-      listener.listener.unbind();
-    }
+    foreach(ref listener; p.listeners) listener.listener.unbind();
   }
 
   /**
@@ -188,25 +187,27 @@ class Bot {
   }
 
   private void onMessageCreate(MessageCreate event) {
-    if (this.feature(BotFeatures.COMMANDS)) {
-      this.tryHandleCommand(new CommandEvent(event));
-    }
+    if(this.feature(BotFeatures.COMMANDS)) this.tryHandleCommand(new CommandEvent(event));
   }
 
   /**
     Starts the bot.
+    Params:
+      game = an optional Game object.
   */
-  void run() {
-    client.gw.start();
+  void run(Game game=null) {
+    if(game==null) client.gw.start();
+    else client.gw.start(game);
   }
 
+
   /// Base implementation for getting a level from a user. Override this.
-  int getLevel(User user) {
+  int getLevel(User user) { // stfu
     return 0;
   }
 
   /// Base implementation for getting a level from a role. Override this.
-  int getLevel(Role role) {
+  int getLevel(Role role) { // stfu
     return 0;
   }
 
@@ -224,5 +225,5 @@ class Bot {
     }
 
     return max(roleLevel, this.getLevel(event.msg.author));
-  }
+  } 
 }
