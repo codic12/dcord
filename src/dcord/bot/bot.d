@@ -196,7 +196,7 @@ class Bot {
       game = an optional Game object.
   */
   void run(Game game=null) {
-    if(game==null) client.gw.start();
+    if(game is null) client.gw.start();
     else client.gw.start(game);
   }
 
