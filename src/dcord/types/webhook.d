@@ -30,7 +30,7 @@ class Webhook {
   this(Client client, Snowflake id) {
     this.id = id;
     this.client = client;
-    VibeJSON payload = client.getWebhook(this.id);
+    VibeJSON payload = client.api.getWebhook(this.id);
     writeln(payload);
     this.name = payload["name"].to!string;
     this.type = payload["type"].to!int;

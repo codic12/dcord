@@ -332,4 +332,50 @@ class APIClient {
   void channelsDeleteWebhook(Snowflake id) {
     this.requestJSON(Routes.WEBHOOKS_DELETE(id)).ok();
   }
+
+  void sendWebhookMessage(Snowflake id, string token, inout(string) content, inout(string) nonce, inout(bool) tts, inout(MessageEmbed) embed) {
+    VibeJSON payload = VibeJSON([
+      "nonce": VibeJSON(nonce),
+      "tts": VibeJSON(tts),
+    ]);
+
+    if(content !is null) {
+      payload["content"] = VibeJSON(content);
+    } else {
+      payload["content"] = VibeJSON(null);
+    }
+    
+    if(embed) { 
+      payload["embeds"] = VibeJSON.emptyArray();
+      payload["embeds"] ~= embed.serializeToJSON();
+    }
+
+    // Send payload and return message object
+    this.requestJSON(Routes.WEBHOOKS_EXECUTE(id, token), payload).ok();
+  }
+
+  void sendWebhookMessage(Snowflake id, string token, inout(string) content, inout(string) nonce, inout(bool) tts, inout(MessageEmbed[]) embeds) {
+    VibeJSON payload = VibeJSON([
+      "nonce": VibeJSON(nonce),
+      "tts": VibeJSON(tts),
+    ]);
+
+    if(content !is null) {
+      payload["content"] = VibeJSON(content);
+    } else {
+      payload["content"] = VibeJSON(null);
+    }
+    
+    if(embeds) {
+      payload["embeds"] = VibeJSON.emptyArray();
+      foreach(embed; embeds) payload["embeds"] ~= embed.serializeToJSON();
+    }
+
+    // Send payload and return message object
+    this.requestJSON(Routes.WEBHOOKS_EXECUTE(id, token), payload).ok();
+  }
+
+  VibeJSON getWebhook(Snowflake id) {
+    return this.requestJSON(Routes.WEBHOOKS_GET(id)).ok().vibeJSON;
+  }
 }

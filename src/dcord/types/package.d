@@ -7,6 +7,7 @@ public import dcord.types.message;
 public import dcord.types.permission;
 public import dcord.types.user;
 public import dcord.types.voice;
+public import dcord.types.webhook;
 public import dcord.client;
 
 public import dcord.types.util;
