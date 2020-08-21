@@ -49,5 +49,8 @@ class Webhook {
   void sendMessage(inout(string) content, inout(string) nonce=null, inout(bool) tts=false, inout(MessageEmbed) embed=null) {
     this.client.api.sendWebhookMessage(this.id, this.token, content, nonce, tts, embed);
   }
+  void deleteWebhook() {
+    this.client.api.deleteWebhook(this.id);
+  }
 }
 

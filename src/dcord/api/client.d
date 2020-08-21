@@ -329,7 +329,7 @@ class APIClient {
   }
 
   /// Delete a webhook.
-  void channelsDeleteWebhook(Snowflake id) {
+  void deleteWebhook(Snowflake id) {
     this.requestJSON(Routes.WEBHOOKS_DELETE(id)).ok();
   }
 
