@@ -112,10 +112,8 @@ class GatewayClient {
     // Start the main task
     this.log.infof("Starting connection to Gateway WebSocket (%s)", this.cachedGatewayURL);
     this.sock = connectWebSocket(URL(this.cachedGatewayURL));
-    runTask({this.run(game);});
-    
-    // Set the status
-    this.send(new StatusUpdate(game));
+    if(game is null) runTask(() => this.run());
+    else runTask(() => this.run(game));
   }
 
   /**
@@ -129,6 +127,9 @@ class GatewayClient {
     this.sock.send(data);
   }
 
+  void updateStatus(Game game=null) {
+    this.send(new StatusUpdate(game));
+  }
   private void debugEventCounts() {
     while (true) {
       this.eventCounter.resetAll();
@@ -340,6 +341,7 @@ class GatewayClient {
 
     this.log.info("Connected to Gateway");
     this.connected = true;
+    this.send(new StatusUpdate(game));
     while (this.sock.waitForData()) {
       if(!this.connected) break;
       try {
@@ -376,6 +378,6 @@ class GatewayClient {
     }
 
     this.log.info("Attempting reconnection...");
-    return this.start(game);
+    return this.start();
   }
 }

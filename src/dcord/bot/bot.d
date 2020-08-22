@@ -225,5 +225,9 @@ class Bot {
     }
 
     return max(roleLevel, this.getLevel(event.msg.author));
-  } 
+  }
+
+  void updateStatus(Game game=null) {
+    client.gw.updateStatus(game);
+  }
 }

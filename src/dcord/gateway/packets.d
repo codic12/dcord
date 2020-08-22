@@ -155,14 +155,14 @@ class StatusUpdate: BasePacket, Serializable {
   /// The game for the presence update
   Game game;
 
-  this(Game game=null) {
+  this(Game game) {
     this.game = game;
   }
 
   override VibeJSON serialize() {
     VibeJSON obj = VibeJSON.emptyObject;
     obj["game"] = VibeJSON.emptyObject; 
-    obj["since"] = 0; 
+    obj["since"] = 0;
     obj["game"]["name"] = this.game.name;
     obj["game"]["type"] = 0;
     obj["status"] = "online";
