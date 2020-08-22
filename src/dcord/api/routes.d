@@ -122,5 +122,7 @@ enum Routes: Route {
   WEBHOOKS_DELETE = Route(HTTPMethod.DELETE, "/webhooks/%s"),
   WEBHOOKS_GET = Route(HTTPMethod.GET, "/webhooks/%s"),
   WEBHOOKS_EXECUTE = Route(HTTPMethod.POST, "/webhooks/%s/%s"),
+
+  REACTIONS_CREATE = Route(HTTPMethod.PUT, "/channels/%s/messages/%s/reactions/%s/@me"),
 }
 

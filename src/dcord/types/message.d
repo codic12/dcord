@@ -275,6 +275,10 @@ class Message: IModel {
     return this.client.api.channelsMessagesCreate(this.channelID, content, nonce, tts, null);
   }
 
+  void react(string emoji) {
+    this.client.api.reactToMessage(this.channelID, this.id, emoji);
+  }
+
   /**
     Sends a Sendable to the same channel as this message.
   */

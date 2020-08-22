@@ -378,4 +378,8 @@ class APIClient {
   VibeJSON getWebhook(Snowflake id) {
     return this.requestJSON(Routes.WEBHOOKS_GET(id)).ok().vibeJSON;
   }
+
+  void reactToMessage(Snowflake chan, Snowflake msg, string emoji) {
+    this.requestJSON(Routes.REACTIONS_CREATE(chan, msg, emoji)).ok();
+  }
 }
