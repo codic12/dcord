@@ -271,6 +271,9 @@ class GatewayClient {
       case "MESSAGE_DELETE_BULK":
         this.emitDispatchEvent!MessageDeleteBulk(obj);
         break;
+      case "MESSAGE_REACTION_ADD":
+        this.emitDispatchEvent!MessageReactionAdd(obj);
+        break;
       default:
         this.log.warningf("Unhandled dispatch event: %s", type);
         break;

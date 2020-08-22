@@ -388,3 +388,12 @@ class MessageDeleteBulk {
   Snowflake channelID;
   Snowflake[] ids;
 }
+
+/**
+  Sent when a reaction is added.
+*/
+class MessageReactionAdd {
+  mixin Event;
+
+  Snowflake messageID;
+}
