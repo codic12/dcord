@@ -7,6 +7,7 @@ import std.stdio,
        std.regex,
        std.array,
        std.algorithm.iteration,
+       std.uri,
        std.algorithm.setops : nWayUnion;
 
 import dcord.types,
@@ -276,7 +277,7 @@ class Message: IModel {
   }
 
   void react(string emoji) {
-    this.client.api.reactToMessage(this.channelID, this.id, emoji);
+    this.client.api.reactToMessage(this.channelID, this.id, emoji.encode);
   }
 
   /**
