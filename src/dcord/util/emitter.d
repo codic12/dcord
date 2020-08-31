@@ -86,7 +86,7 @@ alias EventListenerArray = EventListener[];
 /**
   Listener for all events.
 */
-class AllEventListener:  BaseEventListener {
+class AllEventListener: BaseEventListener {
   void delegate(string, Variant)  func;
 
   this(Emitter e, EmitterOrder order, void delegate(string, Variant) f) {

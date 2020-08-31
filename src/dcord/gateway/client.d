@@ -162,8 +162,6 @@ class GatewayClient {
     T v = new T(this.client, obj["d"]);
     this.eventEmitter.emit!T(v);
     v.resolveDeferreds();
-    // TODO: determine if we really need to destory things here
-    // v.destroy();
   }
 
   private void handleDispatchPacket(VibeJSON obj, size_t size) {

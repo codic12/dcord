@@ -13,14 +13,14 @@ import std.stdio,
 import dcord.types,
        dcord.client;
 
-/**
+/*:*
   An interface implementting something that can be sent as a message.
 */
 interface Sendable {
   /// Returns the embed (or null if none) for this sendable
   immutable(MessageEmbed) getEmbed();
 
-  /// Returns the contents for this sendable, no more than 2000 character long
+  /// Returns the contents for this sendable, no more than 2000 characters long
   immutable(string) getContents();
 
   /// Returns the nonce for this sendable
@@ -41,7 +41,7 @@ class BaseSendable: Sendable {
   }
 
   /// Get contents from sendable
-  immutable(string) getContents() {
+ immutable(string) getContents() {
     return "";
   }
 

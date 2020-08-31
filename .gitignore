@@ -12,3 +12,5 @@ dub.selections.json
 *.dll
 *.exe
 *.bin
+
+CHANGELOG.md # temporary, until I actually implement everything in it and publish the relevant releases; don't want to be misleading.
