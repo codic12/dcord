@@ -6,8 +6,8 @@
   "license": "zlib",
   "targetType": "library",
   "dependencies": {
-    "vibe-d:core": "~>0.8.5",
-    "vibe-d:http": "~>0.8.5"
+    "vibe-d:core": "~>0.9.2",
+    "vibe-d:http": "~>0.9.2"
   },
   "-ddoxFilterArgs": ["--no-unittest-examples"]
 }

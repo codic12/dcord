@@ -90,14 +90,6 @@ class BasicPlugin : Plugin {
     }
   }
 
-  @Command("spam")
-  void spam(CommandEvent event) {
-    for (int i = 0; i < 30; i++) {
-      this.client.updateStatus(0, new Game(format("Test #%s", i)));
-      sleep(250.msecs);
-      this.log.infof("%s", i);
-    }
-  }
 
   Channel userVoiceChannel(Guild guild, User user) {
     this.log.infof("k: %s", guild.voiceStates.keys);

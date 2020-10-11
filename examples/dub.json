@@ -3,17 +3,5 @@
   "targetType": "executable",
   "dependencies": {
     "dcord": {"path": "../"}
-  },
-  "configurations": [
-    {
-      "name": "dcord-examples-linux-static-x64",
-      "subConfigurations": {
-        "dcord": "dcord-linux-static-x64"
-      },
-      "platforms": ["linux", "x86_64"]
-    },
-    {
-      "name": "dcord"
-    }
-  ]
+  }
 }

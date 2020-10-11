@@ -316,7 +316,9 @@ class GatewayClient {
 
   private void heartbeat() {
     while(this.connected) {
+	  this.log.infof("Trying to heartbeat, seq %s", this.seq);
       this.send(new HeartbeatPacket(this.seq));
+      this.log.infof("Successfully sent heartbeat!");
       sleep(this.heartbeatInterval.msecs);
     }
   }
@@ -342,7 +344,7 @@ class GatewayClient {
 
     this.log.info("Connected to Gateway");
     this.connected = true;
-    this.send(new StatusUpdate(game));
+    if(!(game is null)) this.send(new StatusUpdate(game));
     while (this.sock.waitForData()) {
       if(!this.connected) break;
       try {
