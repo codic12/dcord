@@ -85,6 +85,8 @@ class User: IModel {
   bool verified;
   /// The user's email, if the account is linked with one
   string email;
+  /// True if the user is a bot application, otherwise false.
+  bool bot;
 
   override string toString() { // stfu
     return format("<User %s#%s (%s)>", this.username, this.discriminator, this.id);
